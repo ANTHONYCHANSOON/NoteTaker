@@ -1,19 +1,39 @@
-var notes = require("../db/notes");
+var fs = require("fs");
 
-module.exports = function(app){
-    
-    app.get("/api/notes", function(req,res){
-        res.json(notes);
+let notesindb;
+
+fs.readFile("./Develop/db/db.json", function (error, data) {
+
+    if (error) {
+        return console.log(error);
+    }
+
+    let parsedata = JSON.parse(data);
+    //console.log(parsedata);
+    notesindb = parsedata;
+    console.log("notes in db = ", notesindb);
+
+});
+
+module.exports = function (app) {
+
+    app.get("/api/notes", function (req, res) {
+        res.json(notesindb);
+    });
+    app.get("/assets/js/index.js", function(req,res){
+
     });
 
-    // app.post("/api/notes", function(req,res){
-    //     let newnotes = req.body;
-    //     console.log(req.body);
-        
+
+    // app.get("api/notes", function (req, res) {
+    //     notesindb.push(req.body);
+    //     res.json(notesindb);
     // })
-    app.post("/api/tabless",function(req.res){
-        let newnotes = req.body;
-        notes.push(newnotes);
-        res.json(notes);
-    })
+
+    // app.post("/api/notes", (req,res) => {
+    //     const newnote = {
+            
+    //     }
+    // })
+
 }
